@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAEC SEZ vs. MODON: Industrial Land Acquisition Comparison</title>
+	<link rel="shortcut icon" href="landksa.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px; /* Adjusted for better readability of grouped bars */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 450px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        /* Tab styling */
+        .tab-button {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .tab-button.active {
+            border-bottom-width: 2px;
+        }
+        /* Card styling */
+        .info-card {
+            background-color: #FFFAF0; /* FloralWhite - a very light warm neutral */
+            border: 1px solid #F0E68C; /* Khaki - a soft warm border */
+        }
+        .highlight-text {
+            color: #8B4513; /* SaddleBrown - for emphasis */
+        }
+        .section-title {
+            border-bottom: 2px solid #D2B48C; /* Tan - for section breaks */
+            padding-bottom: 0.5rem;
+        }
+        /* Custom Tailwind theme extension (conceptual, applied via classes) */
+        /* Primary Background: bg-stone-100 (applied to body) */
+        /* Primary Text: text-neutral-800 (default or applied where needed) */
+        /* Headings: text-teal-700 */
+        /* Accent/Interactive: bg-amber-500, text-white (for buttons/highlights) */
+        /* Secondary/Borders: border-stone-300 */
+    </style>
+</head>
+<body class="bg-stone-100 text-neutral-800">
+    <header class="bg-teal-700 text-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-xl sm:text-2xl font-bold">KAEC SEZ vs. MODON Comparison</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <button onclick="showSection('welcome')" class="tab-button text-teal-100 hover:bg-teal-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium active border-amber-500" data-section="welcome">Welcome</button>
+                        <button onclick="showSection('kaec')" class="tab-button text-teal-100 hover:bg-teal-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium border-transparent" data-section="kaec">KAEC SEZ</button>
+                        <button onclick="showSection('modon')" class="tab-button text-teal-100 hover:bg-teal-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium border-transparent" data-section="modon">MODON</button>
+                        <button onclick="showSection('financial')" class="tab-button text-teal-100 hover:bg-teal-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium border-transparent" data-section="financial">Financials</button>
+                        <button onclick="showSection('tax')" class="tab-button text-teal-100 hover:bg-teal-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium border-transparent" data-section="tax">Tax & Incentives</button>
+                        <button onclick="showSection('strategic')" class="tab-button text-teal-100 hover:bg-teal-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium border-transparent" data-section="strategic">Strategic</button>
+                        <button onclick="showSection('conclusion')" class="tab-button text-teal-100 hover:bg-teal-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium border-transparent" data-section="conclusion">Conclusion</button>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-teal-100 hover:text-white focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden bg-teal-700">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button onclick="showSection('welcome'); toggleMobileMenu();" class="tab-button text-teal-100 hover:bg-teal-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium active border-amber-500" data-section="welcome">Welcome</button>
+                <button onclick="showSection('kaec'); toggleMobileMenu();" class="tab-button text-teal-100 hover:bg-teal-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium border-transparent" data-section="kaec">KAEC SEZ</button>
+                <button onclick="showSection('modon'); toggleMobileMenu();" class="tab-button text-teal-100 hover:bg-teal-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium border-transparent" data-section="modon">MODON</button>
+                <button onclick="showSection('financial'); toggleMobileMenu();" class="tab-button text-teal-100 hover:bg-teal-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium border-transparent" data-section="financial">Financials</button>
+                <button onclick="showSection('tax'); toggleMobileMenu();" class="tab-button text-teal-100 hover:bg-teal-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium border-transparent" data-section="tax">Tax & Incentives</button>
+                <button onclick="showSection('strategic'); toggleMobileMenu();" class="tab-button text-teal-100 hover:bg-teal-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium border-transparent" data-section="strategic">Strategic</button>
+                <button onclick="showSection('conclusion'); toggleMobileMenu();" class="tab-button text-teal-100 hover:bg-teal-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium border-transparent" data-section="conclusion">Conclusion</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <section id="welcome" class="content-section space-y-6">
+            <h2 class="text-3xl font-bold text-teal-700 section-title">Facility Investment Comparison Forecast in 2024 - 2025</h2>
+            <p class="text-lg">This interactive site provides a comparative financial analysis of land acquisition and associated costs for establishing industrial operations within King Abdullah Economic City Special Economic Zone (KAEC SEZ) and the Saudi Authority for Industrial Cities and Technology Zones (MODON). The analysis focuses on helping prospective investors make informed decisions, particularly for ventures like food processing plants, for which both zones are suitable.</p>
+            <p>This application will specifically compare KAEC SEZ's minimum industrial plot of <span class="font-semibold text-amber-600">10,000 sqm</span> with a MODON plot of <span class="font-semibold text-amber-600">2,500 sqm</span>, reflecting common considerations for different scales of investment. Explore the sections to understand the unique offerings, financial implications, and strategic advantages of each location.</p>
+             <div class="mt-6 p-6 rounded-lg shadow-lg info-card">
+                <h3 class="text-xl font-semibold text-teal-700 mb-3">How to Use This Site:</h3>
+                <ul class="list-disc list-inside space-y-2 text-neutral-700">
+                    <li>Use the navigation bar at the top to switch between different sections of the report.</li>
+                    <li>The <span class="font-semibold text-amber-600">'Financials'</span> section provides a direct cost comparison with charts and tables.</li>
+                    <li><span class="font-semibold text-amber-600">'KAEC SEZ'</span> and <span class="font-semibold text-amber-600">'MODON'</span> sections detail the investment profile of each zone.</li>
+                    <li>Explore <span class="font-semibold text-amber-600">'Tax & Incentives'</span> and <span class="font-semibold text-amber-600">'Strategic Factors'</span> for deeper insights.</li>
+                    <li>The <span class="font-semibold text-amber-600">'Conclusion'</span> summarizes key recommendations.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="kaec" class="content-section hidden space-y-6">
+            <h2 class="text-3xl font-bold text-teal-700 section-title">King Abdullah Economic City (KAEC) SEZ Profile</h2>
+            <p>This section outlines the investment profile for KAEC SEZ. KAEC SEZ is designed to attract larger-scale, high-value industries and offers a comprehensive suite of incentives, particularly focused on tax exemptions and streamlined regulatory processes. It is strategically positioned for global trade and logistics.</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="p-6 rounded-lg shadow-lg info-card">
+                    <h3 class="text-xl font-semibold text-teal-700 mb-3">Key Features:</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><span class="font-semibold">Location:</span> Red Sea coast, north of Jeddah, anchored by King Abdullah Port.</li>
+                        <li><span class="font-semibold">Strategic Focus:</span> Automotive, consumer goods, ICT, pharmaceuticals, MedTech, logistics.</li>
+                        <li><span class="font-semibold">Minimum Industrial Plot:</span> 10,000 sqm.</li>
+                        <li><span class="font-semibold">Regulatory Body:</span> Economic Cities and Special Zones Authority (ECZA) offering a "one-stop-shop".</li>
+                        <li><span class="font-semibold">Land Lease:</span> Starts at ~$0.27/sqm/year (SAR 1.0125/sqm/year), 20-year lease with 15% escalation every 5 years.</li>
+                    </ul>
+                </div>
+                <div class="p-6 rounded-lg shadow-lg info-card">
+                    <h3 class="text-xl font-semibold text-teal-700 mb-3">Core Incentives:</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><span class="font-semibold highlight-text">Corporate Income Tax (CIT):</span> 5% for up to 20 years.</li>
+                        <li><span class="font-semibold highlight-text">Withholding Tax (WHT):</span> 0% on profit repatriation.</li>
+                        <li><span class="font-semibold highlight-text">Customs Duties:</span> 0% deferred on goods/equipment.</li>
+                        <li><span class="font-semibold highlight-text">Value Added Tax (VAT):</span> 0% on intra-SEZ transactions.</li>
+                        <li><span class="font-semibold">Labor:</span> Flexible regulations, 0% Saudization for first 5 years, expat levy exemption for residents in SEZ.</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="mt-4">KAEC SEZ's streamlined application and approval processes aim to reduce time-to-market and administrative overhead, offering significant "soft cost" savings for investors, especially foreign ones. It is well-suited for food processing operations, having attracted major food producers.</p>
+        </section>
+
+        <section id="modon" class="content-section hidden space-y-6">
+            <h2 class="text-3xl font-bold text-teal-700 section-title">MODON Profile</h2>
+            <p>This section details the investment profile for MODON. MODON focuses on broader industrialization across Saudi Arabia, supporting SMEs and local entrepreneurs with a wide network of industrial cities. It offers smaller plot sizes and direct financial support mechanisms.</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                 <div class="p-6 rounded-lg shadow-lg info-card">
+                    <h3 class="text-xl font-semibold text-teal-700 mb-3">Key Features:</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><span class="font-semibold">Network:</span> 36 industrial cities across KSA.</li>
+                        <li><span class="font-semibold">Strategic Focus:</span> Broad industrial development, SME empowerment, local content enhancement.</li>
+                        <li><span class="font-semibold">Minimum Industrial Plot:</span> Typically 1,000 sqm for raw land; smaller ready-built factories also available (e.g., 350 sqm, 700 sqm, 1,500 sqm). This comparison focuses on a 2,500 sqm plot.</li>
+                        <li><span class="font-semibold">Land Lease:</span> Starts at SAR 1/sqm/year, 25-year fixed and renewable leases.</li>
+                        <li><span class="font-semibold">Allocation Time:</span> Industrial lands typically allocated within 16 working days.</li>
+                    </ul>
+                </div>
+                <div class="p-6 rounded-lg shadow-lg info-card">
+                    <h3 class="text-xl font-semibold text-teal-700 mb-3">Core Incentives:</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li><span class="font-semibold highlight-text">Financial Facilities:</span> Government loans up to 50% of investment value.</li>
+                        <li><span class="font-semibold highlight-text">Customs Exemptions:</span> For machinery and raw materials for industrial production.</li>
+                        <li><span class="font-semibold">Supported Utilities:</span> Competitive electricity (SAR 0.18/kWh), variable water/wastewater rates.</li>
+                        <li><span class="font-semibold">Taxation:</span> Standard KSA tax regulations (20% CIT, 15% VAT).</li>
+                        <li><span class="font-semibold">White Land Tax:</span> 2.5% on undeveloped land to encourage development.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-6 p-6 rounded-lg shadow-lg info-card">
+                <h3 class="text-xl font-semibold text-teal-700 mb-3">Related Video:</h3>
+                <div class="relative w-full aspect-video rounded-lg overflow-hidden">
+                    <iframe
+                        id="modon-video-iframe"
+                        class="absolute top-0 left-0 w-full h-full"
+                        src=""
+                        title="MODON Related Content"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                    ></iframe>
+                </div>
+                <p class="text-sm text-neutral-600 mt-2">This video provides additional insights into MODON's operations and offerings. It will autoplay when this section is viewed and stop when you navigate away.</p>
+            </div>
+            <p class="mt-4">MODON is ideal for businesses seeking smaller plots, lower base annual land costs, and integration into a broad national industrial ecosystem. It actively supports the food and beverage sector with dedicated food industry clusters.</p>
+        </section>
+
+        <section id="financial" class="content-section hidden space-y-6">
+            <h2 class="text-3xl font-bold text-teal-700 section-title">Financial Comparison: KAEC (10k sqm) vs. MODON (2.5k sqm)</h2>
+            <p>This section provides a direct financial comparison between acquiring a 10,000 sqm industrial plot in KAEC SEZ and a 2,500 sqm plot in MODON. This comparison highlights key initial and recurring costs. Utility costs are estimates based on assumed consumption rates (100 kWh/sqm electricity, 1 m³/sqm drinking water, 0.8 m³/sqm wastewater annually).</p>
+            
+            <div class="chart-container my-8">
+                <canvas id="financialComparisonChart"></canvas>
+            </div>
+            <p class="text-sm text-center text-neutral-600 mb-8">The chart above visualizes key cost differences. Hover over bars for specific values.</p>
+
+            <div class="overflow-x-auto shadow-md rounded-lg">
+                <table class="min-w-full divide-y divide-stone-300">
+                    <thead class="bg-teal-600 text-white">
+                        <tr>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Cost Category / Feature</th>
+                            <th scope="col" class="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider">KAEC SEZ (10,000 sqm)</th>
+                            <th scope="col" class="px-4 py-3 text-right text-xs font-medium uppercase tracking-wider">MODON (2,500 sqm)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-stone-200">
+                        </tbody>
+                </table>
+            </div>
+             <p class="mt-4 text-sm text-neutral-600"><strong>Note on KAEC Lease Escalation:</strong> KAEC SEZ leases typically escalate by 15% every 5 years over a 20-year term. MODON leases are generally for 25 years, suggesting more stable rates. MODON's initial allocation fee varies by city; the minimum is used here.</p>
+        </section>
+
+        <section id="tax" class="content-section hidden space-y-6">
+            <h2 class="text-3xl font-bold text-teal-700 section-title">Tax Implications & Other Financial Benefits</h2>
+            <p>Taxation and other financial incentives are critical differentiators. KAEC SEZ offers significant tax holidays, while MODON provides direct financial support like government loans and has standard KSA tax regulations.</p>
+            <div class="overflow-x-auto shadow-md rounded-lg">
+                <table class="min-w-full divide-y divide-stone-300">
+                    <thead class="bg-teal-600 text-white">
+                        <tr>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Incentive / Tax Rule</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">KAEC SEZ</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">MODON</th>
+                        </tr>
+                    </thead>
+                    <tbody id="taxIncentivesTableBody" class="bg-white divide-y divide-stone-200">
+                        </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="strategic" class="content-section hidden space-y-6">
+            <h2 class="text-3xl font-bold text-teal-700 section-title">Qualitative Factors & Strategic Considerations</h2>
+            <p>Beyond direct costs, strategic factors play a vital role in choosing the right location. This section highlights the qualitative differences that might influence your decision based on your business's scale, market focus, and operational needs.</p>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="p-6 rounded-lg shadow-lg info-card">
+                    <h3 class="text-xl font-semibold text-teal-700 mb-3">KAEC SEZ Strategic Profile:</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Positioned as a <span class="font-semibold highlight-text">global business and logistics hub</span>.</li>
+                        <li>Ideal for industries reliant on <span class="font-semibold">efficient global supply chains</span> (e.g., advanced manufacturing, large-scale logistics).</li>
+                        <li>Emphasis on attracting <span class="font-semibold">Foreign Direct Investment (FDI)</span> and global talent.</li>
+                        <li><span class="font-semibold">"One-stop-shop"</span> regulatory service by ECZA streamlines setup and operations, reducing "soft costs".</li>
+                        <li>Focus on specific high-growth sectors fosters a <span class="font-semibold">specialized ecosystem</span>.</li>
+                         <li>Suitable for <span class="font-semibold">large-scale food processing</span> operations with global export potential.</li>
+                    </ul>
+                </div>
+                <div class="p-6 rounded-lg shadow-lg info-card">
+                    <h3 class="text-xl font-semibold text-teal-700 mb-3">MODON Strategic Profile:</h3>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Extensive <span class="font-semibold highlight-text">national network</span> of industrial cities.</li>
+                        <li>Focus on <span class="font-semibold">comprehensive industrial development</span> and SME empowerment.</li>
+                        <li>Offers locations closer to <span class="font-semibold">specific regional markets or raw material sources</span>.</li>
+                        <li>Availability of <span class="font-semibold">"ready-built factories"</span> for faster setup and lower initial capital.</li>
+                        <li>"White Land Tax" encourages <span class="font-semibold">productive land use</span>.</li>
+                        <li>Strong support for the <span class="font-semibold">domestic food processing sector</span>, including SME food producers.</li>
+                    </ul>
+                </div>
+            </div>
+             <div class="mt-6 p-6 rounded-lg shadow-lg bg-amber-50 border border-amber-200">
+                <h3 class="text-xl font-semibold text-teal-700 mb-3">Regulatory Environment Distinction:</h3>
+                <p class="text-neutral-700">KAEC SEZ operates under a highly specialized SEZ framework by ECZA, prioritizing ease for international investors with more pronounced regulatory and tax autonomy. MODON, while efficient, operates within the broader national regulatory landscape, with its own streamlined processes but less deviation from national norms.</p>
+            </div>
+        </section>
+
+        <section id="conclusion" class="content-section hidden space-y-6">
+            <h2 class="text-3xl font-bold text-teal-700 section-title">Conclusions & Recommendations</h2>
+            <p>The choice between KAEC SEZ and MODON depends heavily on your company's specific scale, strategic objectives, market focus, and financial priorities. Both are vital to Saudi Arabia's industrial growth, offering distinct pathways for investment.</p>
+            <div class="p-6 rounded-lg shadow-lg info-card mb-6">
+                <h3 class="text-xl font-semibold text-teal-700 mb-3">Consider KAEC SEZ if:</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li>You envision <span class="font-semibold highlight-text">large-scale operations</span> (minimum 10,000 sqm plot).</li>
+                    <li><span class="font-semibold highlight-text">Significant long-term tax advantages</span> are a priority (5% CIT, 0% WHT, 0% VAT intra-SEZ).</li>
+                    <li>Your business requires <span class="font-semibold">global connectivity</span> and access to world-class logistics (King Abdullah Port).</li>
+                    <li>You operate in high-value sectors like automotive, MedTech, or advanced logistics.</li>
+                    <li>A <span class="font-semibold">streamlined regulatory environment</span> with reduced "soft costs" is crucial.</li>
+                </ul>
+                <p class="mt-3 text-sm">The higher initial absolute land cost is likely offset by long-term operational savings and strategic advantages for such businesses.</p>
+            </div>
+
+            <div class="p-6 rounded-lg shadow-lg info-card">
+                <h3 class="text-xl font-semibold text-teal-700 mb-3">Consider MODON if:</h3>
+                <ul class="list-disc list-inside space-y-2">
+                    <li>You are an <span class="font-semibold highlight-text">SME or require smaller footprints</span> (e.g., 1,000 sqm, 2,500 sqm, or ready-built factories).</li>
+                    <li>Your primary focus is the <span class="font-semibold">domestic KSA market</span> and national industrial integration.</li>
+                    <li><span class="font-semibold highlight-text">Lower initial capital outlay</span> for land is a key factor.</li>
+                    <li>Access to <span class="font-semibold">government loans</span> (up to 50% of investment) is beneficial.</li>
+                    <li>You prefer locations within a <span class="font-semibold">broad national network</span> of industrial cities.</li>
+                </ul>
+                <p class="mt-3 text-sm">While standard KSA taxes apply, MODON offers accessibility, direct financial support, and options for faster operational commencement.</p>
+            </div>
+            <div class="mt-8 p-6 rounded-lg shadow-lg bg-teal-50 border border-teal-200">
+                 <h3 class="text-xl font-semibold text-teal-700 mb-3">Key Investor Actions:</h3>
+                <ol class="list-decimal list-inside space-y-2 text-neutral-700">
+                    <li><strong>Assess Strategic Objectives and Scale:</strong> Match your business size and market goals to the zone's profile.</li>
+                    <li><strong>Conduct Detailed Financial Modeling:</strong> Project long-term costs, including tax impacts and lease escalations.</li>
+                    <li><strong>Evaluate Ecosystem and Support:</strong> Consider industry clusters, talent pools, regulatory ease, and available financial support.</li>
+                </ol>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-teal-800 text-teal-200 text-center p-4 mt-12">
+        <p>© 2025 Investment Comparison Forecast by Benito Amurao. Data based on the provided financial statement.</p>
+    </footer>
+
+<script>
+    const financialData = {
+        kaec10k: {
+            name: "KAEC SEZ (10,000 sqm)",
+            annualLease: 10125,
+            initialAdmin: 13300,
+            annualElectricity: 183750, // 10000 sqm * 100 kWh/sqm * 0.18375 SAR/kWh
+            annualWater: 41250, // 10000 sqm * 1 m³/sqm * 4.125 SAR/m³ (lowest)
+            annualWastewater: 15000, // 10000 sqm * 0.8 m³/sqm * 1.875 SAR/m³ (lowest treated)
+            get totalAnnualUtilities() { return this.annualElectricity + this.annualWater + this.annualWastewater; },
+            get initialCapitalOutlay() { return this.annualLease + this.initialAdmin; },
+            get threeMonthOpEx() { return (this.annualLease / 4) + (this.totalAnnualUtilities / 4); }
+        },
+        modon1k: { // Data kept for potential future use or reference in text, not primary comparison
+            name: "MODON (1,000 sqm)",
+            annualLease: 1000,
+            initialAdmin: 5000, // Min allocation fee for 1k sqm (Zulfi SAR 5/sqm)
+            annualElectricity: 18000, // 1000 sqm * 100 kWh/sqm * 0.18 SAR/kWh
+            annualWater: 4120,    // 1000 sqm * 1 m³/sqm * 4.12 SAR/m³ (lowest)
+            annualWastewater: 2184, // 1000 sqm * 0.8 m³/sqm * 2.73 SAR/m³ (lowest)
+            get totalAnnualUtilities() { return this.annualElectricity + this.annualWater + this.annualWastewater; },
+            get initialCapitalOutlay() { return this.annualLease + this.initialAdmin; },
+            get threeMonthOpEx() { return (this.annualLease / 4) + (this.totalAnnualUtilities / 4); }
+        },
+        modon2_5k: {
+            name: "MODON (2,500 sqm)",
+            annualLease: 2500,
+            initialAdmin: 12500, // Min allocation fee for 2.5k sqm (Zulfi SAR 5/sqm * 2500)
+            annualElectricity: 45000, // 2500 sqm * 100 kWh/sqm * 0.18 SAR/kWh
+            annualWater: 10300,   // 2500 sqm * 1 m³/sqm * 4.12 SAR/m³ (using a consistent low rate for comparison)
+            annualWastewater: 5460, // 2500 sqm * 0.8 m³/sqm * 2.73 SAR/m³ (lowest)
+            get totalAnnualUtilities() { return this.annualElectricity + this.annualWater + this.annualWastewater; },
+            get initialCapitalOutlay() { return this.annualLease + this.initialAdmin; },
+            get threeMonthOpEx() { return (this.annualLease / 4) + (this.totalAnnualUtilities / 4); }
+        }
+    };
+
+    const taxIncentivesData = [
+        {
+            feature: "Corporate Income Tax (CIT)",
+            kaec: "5% for up to 20 years",
+            modon: "20% (Standard KSA)"
+        },
+        {
+            feature: "Withholding Tax (WHT) on Profit Repatriation",
+            kaec: "0% (Permanent)",
+            modon: "Standard KSA rates"
+        },
+        {
+            feature: "Customs Duties on Goods/Equipment",
+            kaec: "0% Deferred",
+            modon: "Exempt for machinery & raw materials"
+        },
+        {
+            feature: "Value Added Tax (VAT)",
+            kaec: "0% on intra-SEZ transactions",
+            modon: "15% (Standard KSA)"
+        },
+        {
+            feature: "Expat Levy/Operational Fees for Employees",
+            kaec: "Exempt for employees & families in SEZ",
+            modon: "Applicable (Standard KSA)"
+        },
+        {
+            feature: "Natural Gas Price (SAR/million BTUs)",
+            kaec: "SAR 4.7625 ($1.27)",
+            modon: "Not specified in source data"
+        },
+        {
+            feature: "Government Loans/Financial Facilities",
+            kaec: "Not specified for land acquisition",
+            modon: "Up to 50% of investment value"
+        },
+        {
+            feature: "Minimum Land Plot Size",
+            kaec: "10,000 sqm (industrial lease)",
+            modon: "1,000 sqm (industrial lease); smaller ready-built factories available"
+        }
+    ];
+
+    function formatSAR(value) {
+        return `SAR ${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+
+    function populateFinancialTable() {
+        const tableBody = document.querySelector("#financial .overflow-x-auto table tbody");
+        if (!tableBody) return;
+        tableBody.innerHTML = ''; // Clear existing rows
+
+        const kaec = financialData.kaec10k;
+        const modon = financialData.modon2_5k;
+
+        const rows = [
+            { category: "Annual Land Lease Cost", kaecVal: kaec.annualLease, modonVal: modon.annualLease },
+            { category: "Initial Administrative & Registration Fees", kaecVal: kaec.initialAdmin, modonVal: modon.initialAdmin },
+            { category: "Est. Annual Electricity Cost", kaecVal: kaec.annualElectricity, modonVal: modon.annualElectricity },
+            { category: "Est. Annual Drinking Water Cost", kaecVal: kaec.annualWater, modonVal: modon.annualWater },
+            { category: "Est. Annual Wastewater Cost", kaecVal: kaec.annualWastewater, modonVal: modon.annualWastewater },
+            { category: "Total Estimated Annual Utilities", kaecVal: kaec.totalAnnualUtilities, modonVal: modon.totalAnnualUtilities },
+            { category: "Initial Capital Outlay (1st Yr Lease + Admin)", kaecVal: kaec.initialCapitalOutlay, modonVal: modon.initialCapitalOutlay },
+            { category: "Est. 3-Month Operating Costs (Working Capital Proxy)", kaecVal: kaec.threeMonthOpEx, modonVal: modon.threeMonthOpEx }
+        ];
+
+        rows.forEach(row => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-neutral-900">${row.category}</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-neutral-500 text-right">${formatSAR(row.kaecVal)}</td>
+                <td class="px-4 py-3 whitespace-nowrap text-sm text-neutral-500 text-right">${formatSAR(row.modonVal)}</td>
+            `;
+            tableBody.appendChild(tr);
+        });
+    }
+    
+    function populateTaxIncentivesTable() {
+        const tableBody = document.getElementById('taxIncentivesTableBody');
+        if (!tableBody) return;
+        tableBody.innerHTML = ''; 
+        taxIncentivesData.forEach(item => {
+            const row = `
+                <tr class="hover:bg-stone-50">
+                    <td class="px-4 py-3 text-sm font-medium text-neutral-900">${item.feature}</td>
+                    <td class="px-4 py-3 text-sm text-neutral-600">${item.kaec}</td>
+                    <td class="px-4 py-3 text-sm text-neutral-600">${item.modon}</td>
+                </tr>
+            `;
+            tableBody.innerHTML += row;
+        });
+    }
+
+
+    let financialChartInstance = null;
+    function renderFinancialComparisonChart() {
+        const ctx = document.getElementById('financialComparisonChart')?.getContext('2d');
+        if (!ctx) return;
+
+        const kaec = financialData.kaec10k;
+        const modon = financialData.modon2_5k;
+
+        const data = {
+            labels: ['Annual Land Lease', 'Initial Capital Outlay', 'Total Annual Utilities'],
+            datasets: [
+                {
+                    label: kaec.name,
+                    data: [kaec.annualLease, kaec.initialCapitalOutlay, kaec.totalAnnualUtilities],
+                    backgroundColor: 'rgba(20, 110, 110, 0.7)', // Teal shade
+                    borderColor: 'rgba(20, 110, 110, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: modon.name,
+                    data: [modon.annualLease, modon.initialCapitalOutlay, modon.totalAnnualUtilities],
+                    backgroundColor: 'rgba(217, 119, 6, 0.7)', // Amber shade
+                    borderColor: 'rgba(217, 119, 6, 1)',
+                    borderWidth: 1
+                }
+            ]
+        };
+
+        if (financialChartInstance) {
+            financialChartInstance.destroy();
+        }
+
+        financialChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Cost (SAR)',
+                            font: { size: 14, family: 'Inter' },
+                            color: '#525252' // neutral-600
+                        },
+                        ticks: {
+                            callback: function(value) { return 'SAR ' + value.toLocaleString(); },
+                            font: { family: 'Inter' },
+                            color: '#525252'
+                        }
+                    },
+                    x: {
+                         ticks: {
+                            font: { family: 'Inter' },
+                            color: '#525252',
+                            callback: function(value, index, values) { // Wrap long labels
+                                const label = this.getLabelForValue(value);
+                                const maxLength = 15; // Max characters per line
+                                if (label.length > maxLength) {
+                                    const words = label.split(' ');
+                                    let currentLine = '';
+                                    const lines = [];
+                                    words.forEach(word => {
+                                        if ((currentLine + word).length > maxLength) {
+                                            lines.push(currentLine.trim());
+                                            currentLine = '';
+                                        }
+                                        currentLine += word + ' ';
+                                    });
+                                    lines.push(currentLine.trim());
+                                    return lines;
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { 
+                            font: { size: 12, family: 'Inter' },
+                            color: '#3f3f46' // neutral-700
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += formatSAR(context.parsed.y);
+                                }
+                                return label;
+                            }
+                        },
+                        titleFont: { family: 'Inter', size: 14 },
+                        bodyFont: { family: 'Inter', size: 12 }
+                    }
+                }
+            }
+        });
+    }
+
+    function showSection(sectionId) {
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.classList.add('hidden');
+        });
+        document.getElementById(sectionId).classList.remove('hidden');
+
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.classList.remove('active', 'border-amber-500', 'text-white', 'bg-teal-600');
+            button.classList.add('border-transparent', 'text-teal-100');
+            if (button.getAttribute('data-section') === sectionId) {
+                button.classList.add('active', 'border-amber-500', 'text-white');
+                button.classList.remove('border-transparent', 'text-teal-100');
+                 if (!button.closest('#mobile-menu')) { // Don't apply hover styles for active desktop tab
+                    button.classList.add('bg-teal-600');
+                 }
+            }
+        });
+
+        const iframe = document.getElementById('modon-video-iframe');
+        const videoId = '2BlJ_sqfcVA'; // Your specific video ID
+
+        if (sectionId === 'financial') {
+            renderFinancialComparisonChart();
+            if (iframe) {
+                iframe.src = ''; // Stop video playback
+            }
+        } else if (sectionId === 'modon') {
+            if (iframe) {
+                // Correct YouTube embed URL format with autoplay, no mute, no related videos, and starts from beginning
+                iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&start=0`;
+            }
+        } else {
+            // For any other section, stop the video
+            if (iframe) {
+                iframe.src = ''; // Stop video playback
+            }
+        }
+    }
+    
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        showSection('welcome'); // Show welcome section by default
+        populateFinancialTable();
+        populateTaxIncentivesTable();
+        
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', toggleMobileMenu);
+        }
+    });
+
+</script>
+</body>
+</html>
